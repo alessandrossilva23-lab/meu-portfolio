@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Portfólio | Desenvolvedor & Criador</title>
+    <meta name="description" content="Homepage e portfólio pessoal responsivo pronto para GitHub Pages.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Font (Inter) & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a1a1aa;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+        }
+        
+        /* Gradient animations & Glows */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+
+    <!-- Script inicial para evitar Flash de Tema Errado -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased transition-colors duration-300 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Logo / Brand -->
+            <a href="#hero" class="flex items-center gap-2 font-bold text-lg tracking-tight group">
+                <span class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-sm font-extrabold shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">&lt;/&gt;</span>
+                <span class="text-slate-900 dark:text-white">SeuNome<span class="text-indigo-600 dark:text-indigo-400">.dev</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+                <a href="#about" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Sobre Mim</a>
+                <a href="#skills" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Habilidades</a>
+                <a href="#projects" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Projetos</a>
+                <a href="#contact" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contato</a>
+            </nav>
+
+            <!-- Actions (Theme Toggle & Mobile Menu) -->
+            <div class="flex items-center gap-3">
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" aria-label="Alternar Tema" class="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors">
+                    <i id="theme-toggle-dark-icon" class="lucide-moon hidden w-5 h-5"></i>
+                    <i id="theme-toggle-light-icon" class="lucide-sun hidden w-5 h-5"></i>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" aria-label="Abrir Menu" class="md:hidden p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors">
+                    <i class="lucide-menu w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg">
+            <div class="px-4 pt-2 pb-4 space-y-3 font-medium">
+                <a href="#about" class="mobile-link block px-3 py-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Sobre Mim</a>
+                <a href="#skills" class="mobile-link block px-3 py-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Habilidades</a>
+                <a href="#projects" class="mobile-link block px-3 py-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Projetos</a>
+                <a href="#contact" class="mobile-link block px-3 py-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Contato</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-16">
+
+        <!-- ================= HERO SECTION ================= -->
+        <section id="hero" class="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <!-- Background Decorative Glows -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-10 right-10 w-72 h-72 bg-purple-500/10 dark:bg-purple-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-center z-10">
+                
+                <!-- Left Column: Bio & Title -->
+                <div class="md:col-span-7 flex flex-col items-center md:items-start text-center md:text-left space-y-6">
+                    
+                    <!-- Status Badge -->
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        Disponível para novos projetos & vagas
+                    </div>
+
+                    <!-- Main Headline -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                        Olá, eu sou <br>
+                        <span class="gradient-text">Seu Nome Aqui</span>
+                    </h1>
+
+                    <!-- Subtitle / Role -->
+                    <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-xl font-normal leading-relaxed">
+                        Desenvolvedor Software & Criador de Soluções Web. Especializado em construir aplicações modernas, escaláveis e focadas na melhor experiência do usuário.
+                    </p>
+
+                    <!-- Call to Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
+                        <a href="#projects" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 transition-all duration-200 flex items-center gap-2 group">
+                            Ver Projetos
+                            <i class="lucide-arrow-right w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#contact" class="px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-200 font-medium text-sm transition-all duration-200">
+                            Entrar em Contato
+                        </a>
+                    </div>
+
+                    <!-- Social Media Links -->
+                    <div class="flex items-center gap-4 pt-4 text-slate-500 dark:text-slate-400">
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="p-2.5 rounded-xl hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors">
+                            <i class="lucide-github w-5 h-5"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="p-2.5 rounded-xl hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors">
+                            <i class="lucide-linkedin w-5 h-5"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" class="p-2.5 rounded-xl hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors">
+                            <i class="lucide-twitter w-5 h-5"></i>
+                        </a>
+                        <a href="mailto:seuemail@exemplo.com" aria-label="E-mail" class="p-2.5 rounded-xl hover:text-rose-500 dark:hover:text-rose-400 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition-colors">
+                            <i class="lucide-mail w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Avatar Placeholder -->
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative group">
+                        <!-- Gradient Backdrop Ring -->
+                        <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur-lg group-hover:opacity-100 transition duration-500"></div>
+                        
+                        <!-- Avatar Frame -->
+                        <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full overflow-hidden border-4 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-800 shadow-2xl flex items-center justify-center">
+                            <!-- Substitua o src abaixo pela URL da sua foto -->
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" 
+                                 alt="Avatar de Seu Nome" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x400/6366f1/ffffff?text=Sua+Foto';">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= ABOUT SECTION ================= -->
+        <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200/60 dark:border-slate-800/60 bg-slate-100/50 dark:bg-slate-900/40">
+            <div class="max-w-5xl mx-auto space-y-12">
+                
+                <div class="text-center space-y-3">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Sobre Mim</h2>
+                    <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+                        Um pouco sobre minha trajetória profissional, o que me motiva e o que venho construindo.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+                    
+                    <!-- Bio Text Card -->
+                    <div class="md:col-span-7 glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm flex flex-col justify-between space-y-4">
+                        <div class="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+                            <p>
+                                👋 Olá! Sou um desenvolvedor apaixonado por tecnologia e resolução de problemas. Tenho experiência no desenvolvimento de aplicações web completas, do design da interface até a arquitetura do servidor.
+                            </p>
+                            <p>
+                                Minha jornada envolve aprendizado contínuo sobre as melhores práticas de código limpo, performance, acessibilidade e experiência do usuário (UX). Adoro transformar ideias complexas em produtos digitais funcionais e intuitivos.
+                            </p>
+                            <p>
+                                Quando não estou codando, gosto de contribuir com comunidades open-source, explorar novas tecnologias e compartilhar conhecimentos.
+                            </p>
+                        </div>
+
+                        <!-- Quick Badges -->
+                        <div class="pt-4 flex flex-wrap gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 text-xs font-semibold">Resolução de Problemas</span>
+                            <span class="px-3 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 text-xs font-semibold">Foco em Resultados</span>
+                            <span class="px-3 py-1 rounded-lg bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 text-xs font-semibold">Aprendizado Contínuo</span>
+                        </div>
+                    </div>
+
+                    <!-- Highlights Grid -->
+                    <div class="md:col-span-5 grid grid-cols-2 gap-4">
+                        <div class="glass-card p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-center items-center text-center space-y-2 hover:border-indigo-500/50 transition-colors">
+                            <div class="p-3 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                                <i class="lucide-code-2 w-6 h-6"></i>
+                            </div>
+                            <span class="text-3xl font-extrabold text-slate-900 dark:text-white">3+</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Anos de Experiência</span>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-center items-center text-center space-y-2 hover:border-indigo-500/50 transition-colors">
+                            <div class="p-3 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                                <i class="lucide-folder-git-2 w-6 h-6"></i>
+                            </div>
+                            <span class="text-3xl font-extrabold text-slate-900 dark:text-white">20+</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Projetos Concluídos</span>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-center items-center text-center space-y-2 hover:border-indigo-500/50 transition-colors">
+                            <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                <i class="lucide-users w-6 h-6"></i>
+                            </div>
+                            <span class="text-3xl font-extrabold text-slate-900 dark:text-white">100%</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Comprometimento</span>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-center items-center text-center space-y-2 hover:border-indigo-500/50 transition-colors">
+                            <div class="p-3 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400">
+                                <i class="lucide-coffee w-6 h-6"></i>
+                            </div>
+                            <span class="text-3xl font-extrabold text-slate-900 dark:text-white">∞</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Cafés Tomados</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SKILLS SECTION ================= -->
+        <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto space-y-10">
+                
+                <div class="text-center space-y-3">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Habilidades & Tecnologias</h2>
+                    <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+                        Ferramentas e tecnologias que utilizo diariamente para dar vida aos projetos.
+                    </p>
+                </div>
+
+                <!-- Skill Filter Tabs -->
+                <div class="flex flex-wrap items-center justify-center gap-2">
+                    <button class="skill-tab active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-indigo-600 text-white shadow-md shadow-indigo-600/20" data-category="all">
+                        Todas
+                    </button>
+                    <button class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-slate-200/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700" data-category="frontend">
+                        Frontend
+                    </button>
+                    <button class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-slate-200/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700" data-category="backend">
+                        Backend
+                    </button>
+                    <button class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-slate-200/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700" data-category="tools">
+                        Ferramentas & DevOps
+                    </button>
+                </div>
+
+                <!-- Skill Pills Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="skills-grid">
+                    
+                    <!-- Skill Item 1 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="frontend">
+                        <div class="p-2.5 rounded-lg bg-orange-500/10 text-orange-500 font-bold">
+                            <i class="lucide-file-code-2 w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">HTML5 & CSS3</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Avançado</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item 2 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="frontend">
+                        <div class="p-2.5 rounded-lg bg-yellow-500/10 text-yellow-500 font-bold">
+                            <i class="lucide-file-json w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">JavaScript</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">ES6+ / Avançado</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item 3 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="frontend">
+                        <div class="p-2.5 rounded-lg bg-cyan-500/10 text-cyan-500 font-bold">
+                            <i class="lucide-atom w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">React & Next.js</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Intermediário</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item 4 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="frontend">
+                        <div class="p-2.5 rounded-lg bg-sky-500/10 text-sky-500 font-bold">
+                            <i class="lucide-palette w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">Tailwind CSS</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Avançado</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item 5 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="backend">
+                        <div class="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500 font-bold">
+                            <i class="lucide-server w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">Node.js</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Intermediário</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item 6 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="backend">
+                        <div class="p-2.5 rounded-lg bg-blue-500/10 text-blue-500 font-bold">
+                            <i class="lucide-database w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">PostgreSQL</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Intermediário</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item 7 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="tools">
+                        <div class="p-2.5 rounded-lg bg-rose-500/10 text-rose-500 font-bold">
+                            <i class="lucide-git-branch w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">Git & GitHub</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Controle de Versão</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Item 8 -->
+                    <div class="skill-item glass-card p-4 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 hover:scale-105 transition-all duration-200" data-category="tools">
+                        <div class="p-2.5 rounded-lg bg-indigo-500/10 text-indigo-500 font-bold">
+                            <i class="lucide-cloud w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-slate-900 dark:text-white">Docker / Vercel</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Deploy & Cloud</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PROJECTS SECTION ================= -->
+        <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200/60 dark:border-slate-800/60 bg-slate-100/50 dark:bg-slate-900/40">
+            <div class="max-w-5xl mx-auto space-y-12">
+                
+                <div class="text-center space-y-3">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Projetos em Destaque</h2>
+                    <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+                        Conheça alguns dos principais trabalhos que desenvolvi recentemente.
+                    </p>
+                </div>
+
+                <!-- Project Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Project Card 1 -->
+                    <div class="glass-card rounded-2xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+                        <div class="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" 
+                                 alt="Preview Projeto 1" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/4f46e5/ffffff?text=Projeto+Dashboard';">
+                            <div class="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/0 transition-colors"></div>
+                        </div>
+
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">Full Stack</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                    Dashboard Analytics
+                                </h3>
+                                <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-3">
+                                    Painel interativo para gerenciamento de métricas financeiras e dados em tempo real com gráficos responsivos.
+                                </p>
+                            </div>
+
+                            <div class="space-y-4 pt-2">
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">React</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Tailwind</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Node.js</span>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                                    <a href="https://github.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                        <i class="lucide-github w-4 h-4"></i> Código
+                                    </a>
+                                    <a href="https://example.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+                                        Demo Ao Vivo <i class="lucide-external-link w-3.5 h-3.5"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2 -->
+                    <div class="glass-card rounded-2xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+                        <div class="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800" 
+                                 alt="Preview Projeto 2" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/9333ea/ffffff?text=E-commerce+App';">
+                            <div class="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/0 transition-colors"></div>
+                        </div>
+
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-purple-500/10 text-purple-600 dark:text-purple-400">Web App</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                    Plataforma E-Commerce
+                                </h3>
+                                <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-3">
+                                    Loja virtual completa com carrinho de compras, checkout integrado e suporte a múltiplos temas de cor.
+                                </p>
+                            </div>
+
+                            <div class="space-y-4 pt-2">
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Next.js</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Stripe API</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Prisma</span>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                                    <a href="https://github.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                        <i class="lucide-github w-4 h-4"></i> Código
+                                    </a>
+                                    <a href="https://example.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+                                        Demo Ao Vivo <i class="lucide-external-link w-3.5 h-3.5"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3 -->
+                    <div class="glass-card rounded-2xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+                        <div class="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800" 
+                                 alt="Preview Projeto 3" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/ec4899/ffffff?text=AI+Task+Manager';">
+                            <div class="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/0 transition-colors"></div>
+                        </div>
+
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-pink-500/10 text-pink-600 dark:text-pink-400">Inteligência Artificial</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                    Gerenciador de Tarefas AI
+                                </h3>
+                                <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-3">
+                                    Aplicativo de produtividade inteligente que prioriza automaticamente afazeres com base em inteligência artificial.
+                                </p>
+                            </div>
+
+                            <div class="space-y-4 pt-2">
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">JavaScript</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">OpenAI API</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Tailwind</span>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                                    <a href="https://github.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                        <i class="lucide-github w-4 h-4"></i> Código
+                                    </a>
+                                    <a href="https://example.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+                                        Demo Ao Vivo <i class="lucide-external-link w-3.5 h-3.5"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= CONTACT SECTION ================= -->
+        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto space-y-12">
+                
+                <div class="text-center space-y-3">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Vamos Conversar?</h2>
+                    <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+                        Tem uma ideia de projeto, proposta de trabalho ou quer apenas bater um papo? Envie uma mensagem!
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Direct Contact Information -->
+                    <div class="md:col-span-5 space-y-6">
+                        <div class="glass-card p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 space-y-6">
+                            
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Informações de Contato</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="p-3 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 shrink-0">
+                                        <i class="lucide-mail w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">E-mail</span>
+                                        <a href="mailto:seuemail@exemplo.com" class="text-sm font-semibold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                                            seuemail@exemplo.com
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+                                        <i class="lucide-map-pin w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">Localização</span>
+                                        <span class="text-sm font-semibold text-slate-900 dark:text-white">
+                                            São Paulo, Brasil (Remoto)
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="p-3 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 shrink-0">
+                                        <i class="lucide-calendar w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">Horário de Atendimento</span>
+                                        <span class="text-sm font-semibold text-slate-900 dark:text-white">
+                                            Seg - Sex: 09:00 - 18:00
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Interactive Form -->
+                    <div class="md:col-span-7 glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 relative">
+                        <form id="contact-form" class="space-y-5">
+                            <div>
+                                <label for="name" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Seu Nome</label>
+                                <input type="text" id="name" required placeholder="Ex: Maria Silva" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Seu E-mail</label>
+                                <input type="email" id="email" required placeholder="maria@exemplo.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Sua Mensagem</label>
+                                <textarea id="message" rows="4" required placeholder="Escreva sobre seu projeto ou ideia..." class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-lg shadow-indigo-600/25 transition-all duration-200 flex items-center justify-center gap-2">
+                                <i class="lucide-send w-4 h-4"></i> Enviar Mensagem
+                            </button>
+                        </form>
+
+                        <!-- Success Alert Banner (Hidden by default) -->
+                        <div id="form-alert" class="hidden absolute inset-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl flex flex-col items-center justify-center p-6 text-center space-y-4 z-20">
+                            <div class="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                                <i class="lucide-check-circle-2 w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Mensagem Enviada!</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 max-w-xs">
+                                Obrigado pelo contato. Responderei o mais rápido possível!
+                            </p>
+                            <button id="close-alert" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 transition-colors">
+                                Enviar outra mensagem
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t border-slate-200/60 dark:border-slate-800/60 py-8 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-xs text-slate-500 dark:text-slate-400">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <p class="text-center sm:text-left">
+                © <span id="year"></span> Seu Nome. Hospedado gratuitamente com <a href="https://pages.github.com/" target="_blank" rel="noopener" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">GitHub Pages</a>.
+            </p>
+
+            <div class="flex items-center gap-4">
+                <a href="#hero" class="hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1">
+                    Voltar ao topo <i class="lucide-arrow-up w-3.5 h-3.5"></i>
+                </a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // Set dynamic current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Dark/Light Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        function updateIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            } else {
+                lightIcon.classList.add('hidden');
+                darkIcon.classList.remove('hidden');
+            }
+        }
+        updateIcons();
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+            updateIcons();
+        });
+
+        // Mobile Menu Toggle Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Skill Category Filter Logic
+        const skillTabs = document.querySelectorAll('.skill-tab');
+        const skillItems = document.querySelectorAll('.skill-item');
+
+        skillTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab styles
+                skillTabs.forEach(t => {
+                    t.classList.remove('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
+                    t.classList.add('bg-slate-200/60', 'dark:bg-slate-800/60', 'text-slate-700', 'dark:text-slate-300');
+                });
+
+                tab.classList.remove('bg-slate-200/60', 'dark:bg-slate-800/60', 'text-slate-700', 'dark:text-slate-300');
+                tab.classList.add('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
+
+                const category = tab.getAttribute('data-category');
+
+                skillItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category');
+                    if (category === 'all' || itemCategory === category) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Contact Form Mock Submit Logic
+        const contactForm = document.getElementById('contact-form');
+        const formAlert = document.getElementById('form-alert');
+        const closeAlertBtn = document.getElementById('close-alert');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formAlert.classList.remove('hidden');
+            contactForm.reset();
+        });
+
+        closeAlertBtn.addEventListener('click', () => {
+            formAlert.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
